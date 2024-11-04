@@ -17,14 +17,13 @@ TODO items (please fill in with initials as we complete them)
 - [ ] given time limitations, perhaps reduce the parallel Python content - perhaps just mention what is possible. We often have run out of time on this anyway.
 
 
-# Upcoming events and hiring
-
- - [Cloud Computing Meetup](https://www.meetup.com/ucberkeley_cloudmeetup/) (monthly)
+# Hiring and other notes
 
  - We offer platforms and services for researchers working with [sensitive data](https://docs-research-it.berkeley.edu/services/srdc/)
 
- - Get paid to develop your skills in research data and computing! Berkeley Research Computing is hiring several graduate student Domain Consultants for flexible appointments, 10% to 25% effort (4-10 hours/week). Email your cover letter and CV to: research-it@berkeley.edu.
-
+ - Get paid to develop your skills in research data and computing! Berkeley's Research IT is hiring graduate student Domain Consultants for flexible appointments, 15% to 25% effort (6-10 hours/week). We are seeking diverse and curious candidates from across scholarly disciplines who are enthusiastic about supporting campus research! Email your cover letter and CV to: `research-it@berkeley.edu`.
+ 
+ 
 # Introduction
 
 We'll do this mostly as a demonstration. We encourage you to login to your account and try out the various examples yourself as we go through them.
