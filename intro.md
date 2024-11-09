@@ -4,17 +4,20 @@
 
 TODO items (please fill in with initials as we complete them)
 
-- [ ] get announcements from Amy
+Noah/San:
 - [ ] edit the slurm scheduler cartoon to refer to current partitions (and any other updates needed); not sure how much work this would be; it'd be nice to have an up-to-date figure but not critical
 - [ ] add HPC overview per Noah suggestion
 - [ ] mention Rocky 8 upgrade
-- [ ] mention `module spider` and Rocky 8 modules
 - [ ] mention that can't use modules from sl7 and point to specific MODULEPATH locations from sl7
 - [ ] probably don't go into rclone, but perhaps leave the slides
 - [ ] perhaps access the shell via OOD rather than SSH during the workshop
-- [ ] add slide or two on GPU access given how important that is these days
-- [ ] somewhat rework the HTC discussion now that savio4 is by default HTC only; i.e., lead with by-core scheduling and mention by-node as the "older" approach with savio3 and savio2
-- [ ] given time limitations, perhaps reduce the parallel Python content - perhaps just mention what is possible. We often have run out of time on this anyway.
+Chris:
+- [x] mention `module spider` and Rocky 8 modules
+- [x] add slide or two on GPU access given how important that is these days
+- [x] somewhat rework the HTC discussion now that savio4 is by default HTC only; i.e., lead with by-core scheduling and mention by-node as the "older" approach with savio3 and savio2
+- [x] given time limitations, perhaps reduce the parallel Python content - perhaps just mention what is possible. We often have run out of time on this anyway.
+- [ ] perhaps access the shell via OOD rather than SSH during the workshop
+- [ ] set up tinyurl and make sure repo/html are ready as of 
 
 
 # Hiring and other notes
@@ -23,7 +26,19 @@ TODO items (please fill in with initials as we complete them)
 
  - Get paid to develop your skills in research data and computing! Berkeley's Research IT is hiring graduate student Domain Consultants for flexible appointments, 15% to 25% effort (6-10 hours/week). We are seeking diverse and curious candidates from across scholarly disciplines who are enthusiastic about supporting campus research! Email your cover letter and CV to: `research-it@berkeley.edu`.
  
- 
+# How to get additional help
+
+ - Check the Status and Announcements page:
+    - [https://research-it.berkeley.edu/services/high-performance-computing/status-and-announcements](https://research-it.berkeley.edu/services/high-performance-computing/status-and-announcements)
+ - For technical issues and questions about using Savio:
+    - brc-hpc-help@berkeley.edu
+ - For questions about computing resources in general, including cloud computing:
+    - brc@berkeley.edu
+    - office hours: office hours: Wed. 1:30-3:00 and Thur. 9:30-11:00 [on Zoom](https://research-it.berkeley.edu/programs/berkeley-research-computing/research-computing-consulting)
+ - For questions about data management (including HIPAA-protected data):
+    - researchdata@berkeley.edu
+    - office hours: office hours: Wed. 1:30-3:00 and Thur. 9:30-11:00 [on Zoom](https://research-it.berkeley.edu/programs/berkeley-research-computing/research-computing-consulting)
+
 # Introduction
 
 We'll do this mostly as a demonstration. We encourage you to login to your account and try out the various examples yourself as we go through them.
@@ -391,20 +406,30 @@ A lot of software is available on Savio but needs to be loaded from the relevant
 (We do this not to confuse you but to avoid clashes between incompatible software and allow multiple versions of a piece of software to co-exist on the system.)
 
 ```
-module list  # what's loaded?
-module avail  # what's available
+module list  # What's loaded?
+module avail  # What's available?
 ```
 
 One thing that tricks people is that some the modules are arranged in a hierarchical (nested) fashion, so you only see some of the modules as being available *after* you load the parent module (e.g., MKL, FFT, and HDF5/NetCDF software are nested within the gcc module). Here's how we see and load MPI.
 
 ```
-module load openmpi  # this fails if gcc not yet loaded
-module load gcc
+module load openmpi  # This fails if gcc not yet loaded.
+module spider openmpi
+module spider openmpi/4.1.6
+module load gcc/13.2.0
 module avail
 module load openmpi
 ```
 
-Note that a variety of Python packages are available simply by loading the python module. For R this is not the case, but you can load the *r-packages* module (as well as the *r-spatial* module for GIS/spatial-related packages).
+# Python and R (changes with Rocky 8)
+
+Here are some core modules for data analysis and machine learning:
+
+- `python`: Python 3.11.6 with a some useful Python packages
+- `anaconda3`: Python 3.11.7 with many useful Python packages plus Conda-related tools
+- `ml/pytorch`: Python 3.11.7 with PyTorch
+- `r`: R 4.4.0 with some useful R packages
+- `r-spatial`: GIS/spatial-related R packages
 
 # Submitting jobs: overview
 
@@ -414,11 +439,12 @@ Why is this necessary? Otherwise your jobs would be slowed down by other people'
 
 The basic workflow is:
 
- - login to Savio; you'll end up on one of the login nodes in your home directory
- - use `cd` to go to the directory from which you want to submit the job
- - submit the job using `sbatch` (or an interactive job using `srun`, discussed later)
-    - when your job starts, the working directory will be the one from which the job was submitted
-    - the job will be running on a compute node, not the login node
+ - Login to Savio (SSH or via ood.brc.berkeley.edu).
+    - You'll end up on one of the login nodes in your home directory.
+ - Use `cd` to go to the directory from which you want to submit the job.
+ - Submit the job using `sbatch` (or an interactive job using `srun`, discussed later).
+    - When your job starts, the working directory will be the one from which the job was submitted.
+    - The job will be running on a compute node, not the login node.
 
 # Submitting jobs: accounts and partitions
 
@@ -433,7 +459,9 @@ sacctmgr -p show associations user=$USER
 Here's an example of the output for a user who has access to an FCA and a condo:
 ```
 Cluster|Account|User|Partition|Share|GrpJobs|GrpTRES|GrpSubmit|GrpWall|GrpTRESMins|MaxJobs|MaxTRES|MaxTRESPerNode|MaxSubmit|MaxWall|MaxTRESMins|QOS|Def QOS|GrpTRESRunMins|
-brc|fc_paciorek|paciorek|savio3_gpu|1|||||||||||||gtx2080_gpu3_normal,savio_lowprio,v100_gpu3_normal|gtx2080_gpu3_normal||
+brc|fc_paciorek|paciorek|savio4_gpu|1|||||||||||||a5k_gpu4_normal,savio_lowprio|a5k_gpu4_normal||
+brc|fc_paciorek|paciorek|savio4_htc|1|||||||||||||savio_debug,savio_normal|savio_normal||
+brc|fc_paciorek|paciorek|savio3_gpu|1|||||||||||||a40_gpu3_normal,gtx2080_gpu3_normal,savio_lowprio,v100_gpu3_normal|gtx2080_gpu3_normal||
 brc|fc_paciorek|paciorek|savio3_htc|1|||||||||||||savio_debug,savio_normal|savio_normal||
 brc|fc_paciorek|paciorek|savio3_bigmem|1|||||||||||||savio_debug,savio_normal|savio_normal||
 brc|fc_paciorek|paciorek|savio3|1|||||||||||||savio_debug,savio_normal|savio_normal||
@@ -445,6 +473,9 @@ brc|fc_paciorek|paciorek|savio2_bigmem|1|||||||||||||savio_debug,savio_normal|sa
 brc|fc_paciorek|paciorek|savio2|1|||||||||||||savio_debug,savio_normal|savio_normal||
 brc|fc_paciorek|paciorek|savio|1|||||||||||||savio_debug,savio_normal|savio_normal||
 brc|fc_paciorek|paciorek|savio_bigmem|1|||||||||||||savio_debug,savio_normal|savio_normal||
+brc|co_stat|paciorek|savio3_gpu|1|||||||||||||savio_lowprio|savio_lowprio||
+brc|co_stat|paciorek|savio4_gpu|1|||||||||||||savio_lowprio|savio_lowprio||
+brc|co_stat|paciorek|savio4_htc|1|||||||||||||savio_lowprio|savio_lowprio||
 brc|co_stat|paciorek|savio3_htc|1|||||||||||||savio_lowprio|savio_lowprio||
 brc|co_stat|paciorek|savio3_bigmem|1|||||||||||||savio_lowprio|savio_lowprio||
 brc|co_stat|paciorek|savio3|1|||||||||||||savio_lowprio|savio_lowprio||
@@ -458,15 +489,15 @@ brc|co_stat|paciorek|savio_bigmem|1|||||||||||||savio_lowprio|savio_lowprio||
 brc|co_stat|paciorek|savio2|1|||||||||||||savio_lowprio,stat_savio2_normal|stat_savio2_normal||
 ```
 
-If you are part of a condo, you'll notice that you have *low-priority* access to certain partitions. For example, user 'paciorek' is part of the statistics condo *co_stat*, which purchased some savio2 nodes and savio2_gpu nodes and therefore has normal access to those, but he can also burst beyond the condo and use other partitions at low-priority (see below).
+If you are part of a condo, you'll notice that you have *low-priority* access to certain partitions. For example, user 'paciorek' is part of the statistics condo *co_stat*, which purchased some `savio2` nodes and therefore has normal access to those, but he can also burst beyond the condo and use other partitions at low-priority (see below).
 
-In contrast, through his FCA, 'paciorek' has access to the savio, savio2, and savio3 partitions as well as various big memory, HTC, and GPU partitions, all at normal priority.
+In contrast, through his FCA, 'paciorek' has access to the savio2, savio3, and savio4 partitions as well as various big memory, HTC, and GPU partitions, all at normal priority.
 
 # Submitting a batch job
 
 Let's see how to submit a simple job. If your job will only use the resources on a single node, you can do the following.
 
-Here's an example job script that I'll run. You'll need to modify the --account value and possibly the --partition value.
+Here's an example job script that I'll run, requesting four cores. You'll need to modify the --account value and possibly the --partition value.
 
 ```bash
 #!/bin/bash
@@ -476,14 +507,17 @@ Here's an example job script that I'll run. You'll need to modify the --account 
 # Account:
 #SBATCH --account=fc_paciorek
 #
+# Cores:
+#SBATCH --cpus-per-task=4
+#
 # Partition:
-#SBATCH --partition=savio2
+#SBATCH --partition=savio3_htc
 #
 # Wall clock limit (5 minutes here):
 #SBATCH --time=00:05:00
 #
 ## Command(s) to run:
-module load python/3.9.12
+module load python
 python calc.py >& calc.out
 ```
 
@@ -511,7 +545,7 @@ You can also login to the node where you are running and use commands like *top*
 srun --jobid=<JOB_ID> --pty /bin/bash
 ```
 
-NOTE: except for the partitions named *_htc and *_gpu, all jobs are given exclusive access to the entire node or nodes assigned to the job (and your account is charged for all of the cores on the node(s)).
+NOTE: For the partitions not named *_htc and *_gpu, all jobs are given exclusive access to the entire node or nodes assigned to the job (**and your account is charged for all of the cores on the node(s)**).
 
 
 # Parallel job submission
@@ -553,9 +587,8 @@ mpirun ./a.out
 
 When you write your code, you may need to specify information about the number of cores to use. SLURM will provide a variety of variables that you can use in your code so that it adapts to the resources you have requested rather than being hard-coded.
 
-Here are some of the variables that may be useful: SLURM_NTASKS, SLURM_CPUS_PER_TASK, SLURM_NODELIST, SLURM_NNODES.
+Here are some of the variables that may be useful: `SLURM_NTASKS`, `SLURM_CPUS_PER_TASK`, `SLURM_NODELIST`, `SLURM_NNODES`.
 
-NOTE: when submitting GPU jobs [you need to request multiple CPUs per GPU](https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/running-your-jobs/submitting-jobs/#gpu-jobs) (usually 2 GPUs, but for some of the GPU types in savio3_gpu, 4 or 8 GPUs).
 
 # Parallel job submission patterns
 
@@ -572,20 +605,34 @@ Some common paradigms are:
 
 We have lots more [examples of job submission scripts](https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/running-your-jobs/scheduler-examples) for different kinds of parallelization (multi-node (MPI), multi-core (openMP), hybrid, etc.
 
+# GPU jobs
+
+Some [complications when submitting GPU jobs](https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/running-your-jobs/submitting-jobs/#gpu-jobs):
+
+ - `savio3_gpu` has multiple different kinds of GPUs.
+ - You must use the `--gres=gpu:TYPE:NUMBER` syntax (`TYPE` is often but not always needed).
+ - You must request multiple cores per GPU (the number varies by GPU type).
+ - GPU usage is charged per CPU core and is more expensive than using a CPU.
+ - When using an FCA with certain GPU types you need to submit to a specific QoS via `-q`.
+ - Occasionally GPUs become inaccessible and your job may fail to access the GPU.
+ 
+In the next slide. we'll see we can get on a GPU node and see the GPUs.
+
 
 # Interactive jobs
 
 You can also do work interactively. This simply moves you from a login node to a compute node.
 
 ```
-srun -A fc_paciorek -p savio2_htc  -c 1 -t 10:0 --pty bash
+srun -A fc_paciorek -p savio3_gpu --gres=gpu:A40:1 -q a40_gpu3_normal -c 8 -t 10:0 --pty bash
+```
 
-# note that you end up in the same working directory as when you submitted the job
+Note that you end up in the same working directory as when you submitted the job
 
-# now execute on the compute node:
+```
+nvidia-smi
 env | grep SLURM
-module load matlab
-matlab -nodesktop -nodisplay
+module load pytorch
 ```
 
 To end your interactive session (and prevent accrual of additional charges to your FCA), simply enter `exit` in the terminal session.
@@ -622,37 +669,8 @@ env | grep SLURM
 
 The low-priority queue is also quite useful for accessing specific GPU types in the `savio3_gpu` partition.
 
-# HTC jobs (and long-running jobs)
 
-TODO: mv this material earlier to where we introduce job submission to make clear per-node vs per-core scheduling.
-
-There are multiple "HTC" partitions (savio2_htc, savio3_htc, savio4_htc [coming soon]) that allow you to request cores individually rather than an entire node at a time. In some cases the nodes in these partition are faster than the other nodes. Here is an example SLURM script:
-
-```
-#!/bin/bash
-# Job name:
-#SBATCH --job-name=test
-#
-# Account:
-#SBATCH --account=account_name
-#
-# Partition:
-#SBATCH --partition=savio3_htc
-#
-# Processors per task:
-#SBATCH --cpus-per-task=2
-#
-# Wall clock limit -- 10 minutes
-#SBATCH --time=00:10:00
-#
-## Command(s) to run (example):
-module load python/3.9.12
-python calc.py >& calc.out
-```
-
-One can run jobs up to 10 days (using four or fewer cores) in the *savio2_htc* partition if you include `--qos=savio_long`.
-
-# Alternatives to the HTC partition for collections of serial jobs
+# Alternatives to the HTC partitions for collections of serial jobs
 
 You may have many serial jobs to run. It may be more cost-effective to collect those jobs together and run them across multiple cores on one or more nodes.
 
@@ -675,8 +693,8 @@ squeue -A co_stat
 
 To see what nodes are available in a given partition:
 ```
-sinfo -p savio3
-sinfo -p savio2_gpu
+sinfo -p savio4
+sinfo -p savio3_gpu
 ```
 
 You can cancel a job with `scancel`.
@@ -773,7 +791,7 @@ To learn more, see our page on understanding [when your jobs will run](https://d
 
 # Another Way to Leverage Savio: Open OnDemand (OOD)
 
-Savio now has an Open OnDemand portal, a web based way to access Savio using only your web browser.
+Savio has an Open OnDemand portal, a web-based way to access Savio using only your web browser.
 
 Using OOD you can:
 
@@ -788,26 +806,12 @@ Using OOD you can:
 
 Let's login to OOD:
 
-- Connect to [ood.brc.berkeley.edu](https://ood.brc.berkeley.edu)
-  - Login with your Savio username
-  - The password is as usual with a one-time password
-- You can then access the modules at the top of the page
+- Connect to [ood.brc.berkeley.edu](https://ood.brc.berkeley.edu).
+  - Login via CILogon with your CalNet credentials.
+- You can then access the OOD services at the top of the page.
 
 
-# File Browser in OOD
-
-To access the file browser in OOD click "Files" and then "Home Directory"
-
-- You start in your home directory
-- Note especially:
-  - Download
-  - Upload
-  - Delete
-  - Edit
-  - Show Dotfiles
-- We recommend using Globus for large file transfers
-
-# Other Features
+# Jobs and shell access
 
 You can also view a job or get shell access:
 
@@ -837,36 +841,41 @@ To launch a Jupyter session:
  - Hit launch to start up a notebook
 
 
-# iPyParallel
+# IPyParallel
 
 
-You can follow along with the Jupyter notebook [here](https://github.com/ucb-rit/savio-training-intro-fall-2022/blob/main/Intro_to_Savio_iPP.ipynb)
+You can follow along with [this Jupyter notebook](https://github.com/ucb-rit/savio-training-intro-fall-2024/blob/main/Intro_to_Savio_iPP.ipynb).
 
-First, we import iPyParallel and set up a cluster
+We'll start up a Jupyter session that requests multiple cores.
 
-```
+Then in the notebook we first import IPyParallel and set up a cluster:
+
+```python
 import os
 
 # Import the package
 import ipyparallel as ipp
 
 # Get number of cores (for one node)
-cpu_count = int(os.getenv('SLURM_CPUS_ON_NODE'))
+n_workers = int(os.getenv('SLURM_CPUS_ON_NODE'))
 
 # Create a remote cluster (It only takes one line!)
-rc = ipp.Cluster(n=cpu_count).start_and_connect_sync()
+rc = ipp.Cluster(n=n_workers).start_and_connect_sync()
 ```
 
-Then create a direct view, which lets you run tasks symmetrically across engines
+Note that `ipyparallel` is not installed in the `anaconda3` module used by the Jupyter app.
+I installed it via `pip install --user ipyparallel`, or one could create a Jupyter kernel from a Conda environment.
 
-```
+Then create a *direct view*, which lets you run tasks across all the workers in a simple fashion:
+
+```python
 dview = rc[:]
 ```
 
 There are two ways to import packages on the engines
 
 
-```
+```python
 # Import via execute
 dview.execute('import numpy as np')
 
@@ -877,76 +886,74 @@ with dview.sync_imports():
 
 # IPP: Basic Operations
 
-The push command lets you send data to each engine
+The push command lets you send data to each worker (*engine*):
 
-```
-# Send data to each engine
+```python
+# Send data to each worker
 dview.push(dict(a=1.03234, b=3453))
-for i in range(cpu_count):
-  rc[i].push({'id': rc.ids[i]})
+
+# Manually to individual workers
+for i in range(n_workers):
+  rc[i].push({'num': rc.ids[i]})
 ```
 
-Some commands will return an asynchronous object
+Some commands will return an asynchronous object:
 
-```
+```python
 # Apply and then get
-ar = dview.apply(lambda x: id+x, 27)
-print(ar)
+async_object = dview.apply(lambda x: id+x, 27)
+print(async_object)
 # Get the result
-ar.get()
+async_object.get()
 ```
 
 There are other ways to make sure your code finishes running before moving on
 
-```
+```python
 # Can use apply sync
-dview.apply_sync(lambda x: id+x+np.random.rand(2), 27)
+dview.apply_sync(lambda x: num+x, 27)
 
 # Or use blocking for all operations
 dview.block=True
-dview.apply(lambda x: id+x, 27)
+dview.apply(lambda x: num+x, 27)
 ```
 
 
 # IPP: Load Balancing and Maps
 
-A load balance view assigns tasks to keep all of the processors busy
+A *load balanced* view assigns tasks to keep all of the workers busy:
 
-```
+```python
 # Create a balanced load view
 lview = rc.load_balanced_view()
 
-# Cause execution on main process to wait while tasks sent to workers finish
+# Cause execution on main process to wait while tasks sent to workers finish.
 lview.block = True
 ```
 
-We will calculate pi by monte carlo, let's define a function that checks if two points are in the unit circle
+To calculate $pi$ by Monte Carlo simulation, let's define a function that checks if two points are in the unit circle. Each worker will process a large number of points in a vectorized fashion.
 
-```
-def uc_check(input):
-  if input[0] ** 2 + input[1] ** 2 < 1:
-    return 1
-  else:
-    return 0
+```python
+def local_mean(seed):
+  rng = np.random.default_rng(seed=seed)
+  x = rng.uniform(size = 100000).reshape(-1,2)
+  return np.mean(x[:,0]**2 + x[:,1]**2 < 1)
 ```
 
-We now generate many random points in the unit square, we ask the load balanced view to split these random numbers across engines
-
-```
-# Generate randoms numbers
-rn = np.random.rand(int(1e5)).reshape(-1,2)
+```python
 # Execute map
-pi4 = lview.map(uc_check, rn)   # Run calculation in parallel
+m = 100
+pi4 = lview.map(local_mean, range(m))   # Run calculation in parallel
 # Estimate pi
 print(np.mean(pi4) * 4)
 ```
 
-# IPP: Closing
+# IPyParallel: summary
 
- - iPyParallel is one simple way to get going with easy to parallelize problems
- - Blocking is important
- - Using a load balanced view will make the most of your resources
- - iPyParallel can be used with multiple nodes (with more complexity)
+ - IPyParallel is one simple way to get going with easy to parallelize problems.
+ - Blocking is important.
+ - Using a load-balanced view will make the most of your resources.
+ - IPyParallel can be used with multiple nodes (with more complexity).
 
 # How to get additional help
 
