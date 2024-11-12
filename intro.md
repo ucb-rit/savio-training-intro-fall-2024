@@ -181,13 +181,13 @@ Faculty/principal investigators can allow researchers working with them to get u
 # Savio System Update: Rocky 8
 
 - Introduction to Rocky 8 update
- - Savio has been upgraded to the Rocky 8 operating system.
+  - Savio has been upgraded to the Rocky 8 operating system.
 - Key Changes with Rocky 8
- - Enhanced security features
- - Improved system performance
- - Better compatibility with the latest software and applications
+  - Enhanced security features
+  - Improved system performance
+  - Better compatibility with the latest software and applications
 - Notes for users:
- - MODULEPATH locations have changed from Scientific Linux 7 (prior version)
+  - MODULEPATH locations have changed from Scientific Linux 7 (prior version)
 
 
 # Disk space options (home, scratch, group, condo storage)
