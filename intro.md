@@ -6,11 +6,11 @@ TODO items (please fill in with initials as we complete them)
 
 Noah/San:
 - [ ] edit the slurm scheduler cartoon to refer to current partitions (and any other updates needed); not sure how much work this would be; it'd be nice to have an up-to-date figure but not critical
-- [ ] add HPC overview per Noah suggestion
-- [ ] mention Rocky 8 upgrade
-- [ ] mention that can't use modules from sl7 and point to specific MODULEPATH locations from sl7
-- [ ] probably don't go into rclone, but perhaps leave the slides
-- [ ] perhaps access the shell via OOD rather than SSH during the workshop
+- [x] NB - add HPC overview per Noah suggestion
+- [x] NB - mention Rocky 8 upgrade
+- [x] NB - mention that can't use modules from sl7 and point to specific MODULEPATH locations from sl7
+- [x] NB will do - probably don't go into rclone, but perhaps leave the slides
+- [x] NB will do - perhaps access the shell via OOD rather than SSH during the workshop
 Chris:
 - [x] mention `module spider` and Rocky 8 modules
 - [x] add slide or two on GPU access given how important that is these days
@@ -84,8 +84,11 @@ This training session will cover the following topics:
      - Upcoming events
 
 
-# Basic Parallel Computing Concepts
+# Introduction to High Performance Computing (HPC)
 
+- What is High Performance Computing?
+  - HPC involves using big computers and parallel processing to run applications efficiently, reliably, and quickly.
+  - It’s like having hundreds of powerful computers working together to solve large and complex problems.
 - What is Savio?
   - In layman's terms:
     - A collection of really powerful computers (nodes)
@@ -99,22 +102,12 @@ This training session will cover the following topics:
     - Special attention to passing information between nodes
 
 
-# Getting access to the system - FCA and condo
-
-- All regular Berkeley faculty can request 300,000 service units (roughly core-hours) per year through the [Faculty Computing Allowance (FCA)](https://docs-research-it.berkeley.edu/services/high-performance-computing/getting-account/faculty-computing-allowance/)
-- Researchers can also purchase nodes for their own priority access and gain access to the shared Savio infrastructure and to the ability to *burst* to additional nodes through the [condo cluster program](https://docs-research-it.berkeley.edu/services/high-performance-computing/condos/condo-cluster-service/)
-- Instructors can request an [Instructional Computing Allowance (ICA)](https://docs-research-it.berkeley.edu/services/high-performance-computing/getting-account/instructional-computing-allowance/).
-- The application process has gotten even easier with the introduction of the [MyBRC](https://mybrc.brc.berkeley.edu/), the Berkeley Research Computing Access Management System
-- Please bear in mind that applications have to be manually reviewed before they can be approved.
-
-Faculty/principal investigators can allow researchers working with them to get user accounts with access to the FCA or condo resources available to the faculty member.
-
-
 # System capabilities and hardware
 
 - Savio is a >600-node, >15,000-core Linux cluster rated at nearly 540 peak teraFLOPS.
    - about 40% of the  compute nodes provided by the institution for general access
    - about 60% compute nodes contributed by researchers in the Condo program
+
 
 # The Savio cluster
 
@@ -124,6 +117,22 @@ Savio is a Linux cluster - by cluster we mean a set of computers networked toget
   - Login nodes
   - Data transfer nodes
   - Compute nodes
+
+
+# Conceptual diagram of Savio
+
+<center><img src="savio_diagram.jpeg"></center>
+
+
+# Getting access to the system - FCA and condo
+
+- All regular Berkeley faculty can request 300,000 service units (roughly core-hours) per year through the [Faculty Computing Allowance (FCA)](https://docs-research-it.berkeley.edu/services/high-performance-computing/getting-account/faculty-computing-allowance/)
+- Researchers can also purchase nodes for their own priority access and gain access to the shared Savio infrastructure and to the ability to *burst* to additional nodes through the [condo cluster program](https://docs-research-it.berkeley.edu/services/high-performance-computing/condos/condo-cluster-service/)
+- Instructors can request an [Instructional Computing Allowance (ICA)](https://docs-research-it.berkeley.edu/services/high-performance-computing/getting-account/instructional-computing-allowance/).
+- The application process has gotten even easier with the introduction of the [MyBRC](https://mybrc.brc.berkeley.edu/), the Berkeley Research Computing Access Management System
+- Please bear in mind that applications have to be manually reviewed before they can be approved.
+
+Faculty/principal investigators can allow researchers working with them to get user accounts with access to the FCA or condo resources available to the faculty member.
 
 
 # Login nodes
@@ -163,9 +172,23 @@ Savio is a Linux cluster - by cluster we mean a set of computers networked toget
 
 - Any job you submit must be submitted to a partition to which you have access.
 
+
 # Conceptual diagram of Savio
 
 <center><img src="savio_diagram.jpeg"></center>
+
+
+# Savio System Update: Rocky 8
+
+- Introduction to Rocky 8 update
+ - Savio has been upgraded to the Rocky 8 operating system.
+- Key Changes with Rocky 8
+ - Enhanced security features
+ - Improved system performance
+ - Better compatibility with the latest software and applications
+- Notes for users:
+ - MODULEPATH locations have changed from Scientific Linux 7 (prior version)
+
 
 # Disk space options (home, scratch, group, condo storage)
 
@@ -191,7 +214,6 @@ Savio is a Linux cluster - by cluster we mean a set of computers networked toget
 
 # Sensitive Data on Savio
 
-
 - Savio (and AEoD) is [certified for moderately sensitive data](https://docs-research-it.berkeley.edu/services/high-performance-computing/getting-account/sensitive-accounts/)
   - P2, P3 (formerly PL1) and NIH dbGap (non-"notice-triggering" data).
 - PIs/faculty must request a P2/P3 project alongside requests for a new FCA/condo allocation
@@ -199,6 +221,7 @@ Savio is a Linux cluster - by cluster we mean a set of computers networked toget
 - BRC has a new platform for highly sensitive data (P4) called SRDC.
 
 More info is available in [our documentation](https://docs-research-it.berkeley.edu/services/srdc/) or on [our website](https://research-it.berkeley.edu/services-projects/secure-research-data-computing).
+
 
 # Logging in: Getting Set Up
 
@@ -221,7 +244,7 @@ ssh SAVIO_USERNAME@hpc.brc.berkeley.edu
 - One can then navigate around and get information using standard UNIX commands such as `ls`, `cd`, `du`, `df`, etc.
   - There is a lot of material online about using the UNIX command line
     - Also called the shell; 'bash' is one common variation
-  - Here is one [basic tutorial from Software Carpentry](https://swcarpentry.github.io/shell-novice) and [another one from the Berkeley Statistical Computing Facility](https://berkeley-scf.github.io/tutorial-unix-basics).
+  - Here is one [basic tutorial from Software Carpentry](https://swcarpentry.github.io/shell-novice) and [another one from the Berkeley Statistical Computing Facility](https://computing.stat.berkeley.edu/tutorial-unix-basics/).
 
 # Graphical Interface
 
@@ -298,8 +321,8 @@ tar -xvzf files.tgz
 - A multi-platform program for doing transfers via SFTP is [FileZilla](https://filezilla-project.org/).
 - After logging in to most *SFTP* applications, you'll see windows for the Savio filesystem and your local filesystem on your machine. You can drag files back and forth.
 
-# Data transfer for larger files: Globus, Intro
 
+# Data transfer for larger files: Globus, Intro
 
 - You can use Globus Connect to transfer data data to/from Savio (and between other resources) quickly and unattended
   - This is a better choice for large transfers
@@ -309,7 +332,7 @@ tar -xvzf files.tgz
   - Possible endpoints include
     - Savio
     - your laptop or desktop
-    - Other clusters like NERSC and XSEDE
+    - Other clusters like NERSC and ACCESS (XSEDE)
     - bDrive
     - Collaborators & other researchers not on savio
 
@@ -341,21 +364,22 @@ tar -xvzf files.tgz
     - 500GB for new Special Purpose Accounts ("SPAs")
     - Existing accounts will be allowed up to 10% above current storage amount
   - bDrive provides unlimited storage (for now)
-    - Similar limits to Box are likely for bDrive in the near future
-    - bDrive has a maximum file size of 5Tb, Box has a maximum file size of 15 Gb
+    - 50GB for new individual accounts
+    - 150GB for new SPA
+  - bDrive has a maximum file size of 5Tb, Box has a maximum file size of 15 Gb
   - These change reflect service provider price increases which may increasingly fall on researchers for **large** datasets
 - Alternative paid options are also available
   - Cloud storage options include Amazon, Google, Microsoft Azure, and Wasabi
     - See the [bCloud web page](https://technology.berkeley.edu/services/cloud) for more information
   - As mentioned earlier, Condo computing contributors can also buy into the condo storage program
 
-# Data transfer: bDrive Access
+# Data transfer: Box and bDrive Access
 
 - You can interact with both services via web browser, and both services provide a desktop app you can use to move and sync files between your computer and the cloud.
-  - [bDrive web app](http://bdrive.berkeley.edu/)
-  - [Drive desktop app](https://www.google.com/drive/download/)
   - [Box web app](http://box.berkeley.edu)
   - [Box desktop app](https://www.box.com/resources/downloads)
+  - [bDrive web app](http://bdrive.berkeley.edu/)
+  - [Drive desktop app](https://www.google.com/drive/download/)
 
 
 For more ambitious users, Box has a Python-based SDK that can be used to write scripts for file transfers. For more information on how to do this, check out the `BoxAuthenticationBootstrap.ipynb` and `TransferFilesFromBoxToSavioScratch.ipynb` from BRC's cyberinfrastructure engineer on [GitHub](https://github.com/ucberkeley/brc-cyberinfrastructure/tree/dev/analysis-workflows/notebooks)
