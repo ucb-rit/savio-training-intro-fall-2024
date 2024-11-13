@@ -121,7 +121,7 @@ Savio is a Linux cluster - by cluster we mean a set of computers networked toget
 
 # Conceptual diagram of Savio
 
-<center><img src="savio_diagram_2.jpeg"></center>
+<center><img src="savio_diagram_2.jpg"></center>
 
 
 # Getting access to the system - FCA and condo
@@ -175,7 +175,7 @@ Faculty/principal investigators can allow researchers working with them to get u
 
 # Conceptual diagram of Savio
 
-<center><img src="savio_diagram_2.jpeg"></center>
+<center><img src="savio_diagram_2.jpg"></center>
 
 
 # Savio System Update: Rocky 8
