@@ -107,6 +107,18 @@ This training session will cover the following topics:
 - Savio is a >600-node, >15,000-core Linux cluster rated at nearly 540 peak teraFLOPS.
    - about 40% of the  compute nodes provided by the institution for general access
    - about 60% compute nodes contributed by researchers in the Condo program
+ 
+
+
+# Savio System Update: Rocky 8
+Savio has been upgraded to the Rocky 8 operating system.
+- Key Changes with Rocky 8:
+  - Enhanced security features
+  - Improved system performance
+  - Better compatibility with the latest software and applications
+- Notes for users:
+  - MODULEPATH locations have changed from Scientific Linux 7 (prior version)
+
 
 
 # The Savio cluster
@@ -173,23 +185,6 @@ Faculty/principal investigators can allow researchers working with them to get u
 - Any job you submit must be submitted to a partition to which you have access.
 
 
-# Conceptual diagram of Savio
-
-<center><img src="savio_diagram_2.jpg"></center>
-
-
-# Savio System Update: Rocky 8
-
-- Introduction to Rocky 8 update
-  - Savio has been upgraded to the Rocky 8 operating system.
-- Key Changes with Rocky 8
-  - Enhanced security features
-  - Improved system performance
-  - Better compatibility with the latest software and applications
-- Notes for users:
-  - MODULEPATH locations have changed from Scientific Linux 7 (prior version)
-
-
 # Disk space options (home, scratch, group, condo storage)
 
 - You have access to the multiple kinds of disk space, described [here in the *Storing Data* page](https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/storing-data/).
@@ -221,6 +216,11 @@ Faculty/principal investigators can allow researchers working with them to get u
 - BRC has a new platform for highly sensitive data (P4) called SRDC.
 
 More info is available in [our documentation](https://docs-research-it.berkeley.edu/services/srdc/) or on [our website](https://research-it.berkeley.edu/services-projects/secure-research-data-computing).
+
+
+# Conceptual diagram of Savio
+
+<center><img src="savio_diagram_2.jpg"></center>
 
 
 # Logging in: Getting Set Up
