@@ -16,5 +16,5 @@
 #SBATCH --time=00:05:00
 #
 ## Command(s) to run:
-module load python/3.11.6-gcc-11.4.0
+module load anaconda3/2024.02-1-11.4
 python calc.py >& calc.out
