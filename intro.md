@@ -534,7 +534,7 @@ Here's an example job script that I'll run, requesting four cores. You'll need t
 #SBATCH --time=00:05:00
 #
 ## Command(s) to run:
-module load python
+module load python/3.11.6-gcc-11.4.0
 python calc.py >& calc.out
 ```
 
@@ -626,7 +626,7 @@ We have lots more [examples of job submission scripts](https://docs-research-it.
 
 Some [complications when submitting GPU jobs](https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/running-your-jobs/submitting-jobs/#gpu-jobs):
 
- - `savio3_gpu` has multiple different kinds of GPUs.
+ - `savio3_gpu` has several kinds of GPUs with different capabilities.
  - You must use the `--gres=gpu:TYPE:NUMBER` syntax (`TYPE` is often but not always needed).
  - You must request multiple cores per GPU (the number varies by GPU type).
  - GPU usage is charged per CPU core and is more expensive than using a CPU.
@@ -724,7 +724,7 @@ check_usage.sh -a fc_rail
 
 # When will my job start?
 
-The new `sq` tool on Savio provides a bit more user-friendly way to understand why your job isn't running yet. Here's the basic usage:
+The `sq` tool on Savio provides a bit more user-friendly way to understand why your job isn't running yet. Here's the basic usage:
 ```
 # should be loaded by default, but if it isn't:
 # module load sq

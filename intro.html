@@ -531,6 +531,23 @@ X server software on your own machine to manage the graphical windows
 <p>An option that will often be better is to use Open OnDemand
 (ood.brc.berkeley.edu) to access Savio via your browser.</p>
 </div>
+<div id="logging-in-via-browser-using-open-ondemand"
+class="slide section level1">
+<h1>Logging in (via browser using Open OnDemand)</h1>
+<p>Alternatively one can login via OOD to access Savio:</p>
+<ul>
+<li>Connect to <a
+href="https://ood.brc.berkeley.edu">ood.brc.berkeley.edu</a>.
+<ul>
+<li>Login via CILogon (select UC Berkeley) with your CalNet
+credentials.</li>
+</ul></li>
+<li>You can then access the OOD services at the top of the page.
+<ul>
+<li>For a terminal, click on “Clusters” and then “BRC Shell Access”</li>
+</ul></li>
+</ul>
+</div>
 <div id="editing-files" class="slide section level1">
 <h1>Editing files</h1>
 <p>You are welcome to edit your files on Savio (rather than copying
@@ -574,12 +591,12 @@ Powershell/Command Prompt in Windows</p></li>
 </ul>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># to Savio, while on your local machine</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">scp</span> bayArea.csv caw87@dtn.brc.berkeley.edu:~/.</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">scp</span> bayArea.csv caw87@dtn.brc.berkeley.edu:~/data/newName.csv</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">scp</span> bayArea.csv caw87@dtn.brc.berkeley.edu:/global/scratch/users/caw87/.</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">scp</span> bayArea.csv <span class="va">$USER</span>@dtn.brc.berkeley.edu:~/.</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">scp</span> bayArea.csv <span class="va">$USER</span>@dtn.brc.berkeley.edu:~/data/newName.csv</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">scp</span> bayArea.csv <span class="va">$USER</span>@dtn.brc.berkeley.edu:/global/scratch/users/<span class="va">$USER</span>/.</span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># from Savio, while on your local machine</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">scp</span> caw87@dtn.brc.berkeley.edu:~/data/newName.csv ~/Documents/.</span></code></pre></div>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">scp</span> <span class="va">$USER</span>@dtn.brc.berkeley.edu:~/data/newName.csv ~/Documents/.</span></code></pre></div>
 <p>If you can ssh to your local machine or want to transfer files to
 other systems on to which you can ssh, you can login to the dtn node to
 execute the scp commands:</p>
@@ -1025,7 +1042,8 @@ of job submission scripts</a> for different kinds of parallelization
 href="https://docs-research-it.berkeley.edu/services/high-performance-computing/user-guide/running-your-jobs/submitting-jobs/#gpu-jobs">complications
 when submitting GPU jobs</a>:</p>
 <ul>
-<li><code>savio3_gpu</code> has multiple different kinds of GPUs.</li>
+<li><code>savio3_gpu</code> has several kinds of GPUs with different
+capabilities.</li>
 <li>You must use the <code>--gres=gpu:TYPE:NUMBER</code> syntax
 (<code>TYPE</code> is often but not always needed).</li>
 <li>You must request multiple cores per GPU (the number varies by GPU
@@ -1131,9 +1149,9 @@ about monitoring your jobs</a>.</p>
 </div>
 <div id="when-will-my-job-start" class="slide section level1">
 <h1>When will my job start?</h1>
-<p>The new <code>sq</code> tool on Savio provides a bit more
-user-friendly way to understand why your job isn’t running yet. Here’s
-the basic usage:</p>
+<p>The <code>sq</code> tool on Savio provides a bit more user-friendly
+way to understand why your job isn’t running yet. Here’s the basic
+usage:</p>
 <pre><code># should be loaded by default, but if it isn&#39;t:
 # module load sq
 sq</code></pre>
@@ -1200,18 +1218,6 @@ using only your web browser.</p>
 <li>Start a shell session on Savio (i.e., terminal access)</li>
 <li>Launch Jupyter, RStudio, and VS Code servers or Matlab GUI</li>
 <li>Access a Linux desktop on Savio</li>
-</ul>
-</div>
-<div id="logging-in-to-ood" class="slide section level1">
-<h1>Logging in to OOD</h1>
-<p>Let’s login to OOD:</p>
-<ul>
-<li>Connect to <a
-href="https://ood.brc.berkeley.edu">ood.brc.berkeley.edu</a>.
-<ul>
-<li>Login via CILogon with your CalNet credentials.</li>
-</ul></li>
-<li>You can then access the OOD services at the top of the page.</li>
 </ul>
 </div>
 <div id="jobs-and-shell-access" class="slide section level1">
