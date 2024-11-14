@@ -2,23 +2,6 @@
 % November 14, 2024
 % Noah Baker and Chris Paciorek
 
-TODO items (please fill in with initials as we complete them)
-
-Noah/San:
-- [ ] edit the slurm scheduler cartoon to refer to current partitions (and any other updates needed); not sure how much work this would be; it'd be nice to have an up-to-date figure but not critical
-- [x] NB - add HPC overview per Noah suggestion
-- [x] NB - mention Rocky 8 upgrade
-- [x] NB - mention that can't use modules from sl7 and point to specific MODULEPATH locations from sl7
-- [x] NB will do - probably don't go into rclone, but perhaps leave the slides
-- [x] NB will do - perhaps access the shell via OOD rather than SSH during the workshop
-Chris:
-- [x] mention `module spider` and Rocky 8 modules
-- [x] add slide or two on GPU access given how important that is these days
-- [x] somewhat rework the HTC discussion now that savio4 is by default HTC only; i.e., lead with by-core scheduling and mention by-node as the "older" approach with savio3 and savio2
-- [x] given time limitations, perhaps reduce the parallel Python content - perhaps just mention what is possible. We often have run out of time on this anyway.
-- [ ] perhaps access the shell via OOD rather than SSH during the workshop
-- [ ] set up tinyurl and make sure repo/html are ready as of 
-
 
 # Hiring and other notes
 
@@ -59,29 +42,26 @@ This training session will cover the following topics:
      - Login nodes, compute nodes, and DTN nodes
      - Savio computing nodes
      - Disk space options (home, scratch, group, condo storage)
- - Logging in, data transfer, and software
+ - Logging in and data transfer
      - Logging in
      - Data transfer
         - SCP/SFTP
         - Globus
         - Box & bDrive (Google drive)
+ - Software
      - Software modules
  - Submitting and monitoring jobs
      - Acounts and partitions
      - Basic job submission
        - Per-core and per-node scheduling
      - Parallel jobs
-     - Interactive jobs
      - GPU jobs
+     - Interactive jobs
      - Low-priority queue
      - Monitoring jobs and cluster status
- - Basic use of standard software: Python
+ - Open OnDemand (OOD)
      - Jupyter notebooks using OOD
      - Parallelization in Python with ipyparallel
-     - Dask for parallelization in Python
- - More information
-     - How to get additional help
-     - Upcoming events
 
 
 # Introduction to High Performance Computing (HPC)
@@ -111,14 +91,17 @@ This training session will cover the following topics:
 
 
 # Savio System Update: Rocky 8
+
 Savio has been upgraded to the Rocky 8 operating system.
+
 - Key Changes with Rocky 8:
   - Enhanced security features
   - Improved system performance
   - Better compatibility with the latest software and applications
 - Notes for users:
   - MODULEPATH locations have changed from Scientific Linux 7 (prior version)
-
+  - Some different modules available with Rocky 8, plus updated versions of software
+  - OOD logon now uses CalNet authentication via CILogon
 
 
 # The Savio cluster
@@ -196,7 +179,7 @@ Faculty/principal investigators can allow researchers working with them to get u
   - `/global/scratch/users/SAVIO_USERNAME`
     - Connected via Infiniband (very fast)
     - Primary data storage during computation
-- All 3 are available from any of the nodes and changes to files on one node will be seen on all the other nodes
+- All 3 are available from any of the nodes and changes to files when using one node will be seen on all the other nodes
 - Large amounts of disk space is available for purchase from the [*condo storage* offering](https://docs-research-it.berkeley.edu/services/high-performance-computing/condos/condo-storage-service/).
   - The minimum purchase is about $5,750, which provides roughly 112 TB for five years.
 
@@ -213,7 +196,7 @@ Faculty/principal investigators can allow researchers working with them to get u
   - P2, P3 (formerly PL1) and NIH dbGap (non-"notice-triggering" data).
 - PIs/faculty must request a P2/P3 project alongside requests for a new FCA/condo allocation
   - Existing projects can't be converted to P2/P3 projects.
-- BRC has a new platform for highly sensitive data (P4) called SRDC.
+- BRC has a new-ish platform for highly sensitive data (P4) called SRDC.
 
 More info is available in [our documentation](https://docs-research-it.berkeley.edu/services/srdc/) or on [our website](https://research-it.berkeley.edu/services-projects/secure-research-data-computing).
 
@@ -256,6 +239,8 @@ ssh -Y SAVIO_USERNAME@hpc.brc.berkeley.edu
 - To display the graphical windows on your local machine, you'll need X server software on your own machine to manage the graphical windows
   - For Windows, your options include *MobaXterm*, *eXceed*, or *Xming*
   - For Mac, there is *XQuartz*
+  
+An option that will often be better is to use Open OnDemand (ood.brc.berkeley.edu) to access Savio via your browser.
 
 # Editing files
 
@@ -358,16 +343,14 @@ tar -xvzf files.tgz
 # Data transfer: Box & bDrive
 
 - Box and bDrive (the Cal branded Google Drive) both provide free, secured, and encrypted content storage of files to Berkeley affiliates
-  - They are both good options for backup and long-term storage of data that you plan to shuttle in and out of Savio
+  - However, recent quotas imposed on Box and bDrive now limit their usefulness for research data
   - Box quotas
     - 50GB for new individual accounts
     - 500GB for new Special Purpose Accounts ("SPAs")
-    - Existing accounts will be allowed up to 10% above current storage amount
-  - bDrive provides unlimited storage (for now)
+  - bDrive quotas
     - 50GB for new individual accounts
-    - 150GB for new SPA
+    - 150GB for existing individual accounts
   - bDrive has a maximum file size of 5Tb, Box has a maximum file size of 15 Gb
-  - These change reflect service provider price increases which may increasingly fall on researchers for **large** datasets
 - Alternative paid options are also available
   - Cloud storage options include Amazon, Google, Microsoft Azure, and Wasabi
     - See the [bCloud web page](https://technology.berkeley.edu/services/cloud) for more information
@@ -663,16 +646,6 @@ To end your interactive session (and prevent accrual of additional charges to yo
 
 NOTE: you are charged for the entire node when running interactive jobs (as with batch jobs) except in the HTC and GPU (*_htc and *_gpu) partitions.
 
-# Running graphical interfaces interactively
-
-If you are running a graphical interface, we recommend you use [Savio's Open OnDemand interface](https://ood.brc.berkeley.edu) (more in a later slide), e.g.,
-
- - Jupyter Notebooks
- - RStudio
- - the MATLAB GUI
- - VS Code
- - remote desktop
-
 # Low-priority queue
 
 Condo users have access to the broader compute resource that is limited only by the size of partitions, under the *savio_lowprio* QoS (queue). However this QoS does not get a priority as high as the general QoSs, such as *savio_normal* and *savio_debug*, or all the condo QoSs, and it is subject to preemption when all the other QoSs become busy.
@@ -857,11 +830,11 @@ To launch a Jupyter session:
 
  - Click on the "Interactive Apps" drop-down menu and select one of the Jupyter server options
    - The "compute on shared Jupyter node" option is for testing and debugging jobs
-    - No service units charged, but minimal computing power
+     - No service units charged, but minimal computing power
    - The "compute via Slurm" should be used for all other use cases
-    - Service units are charged based on job run time (and resource(s) used)
+     - Service units are charged based on job run time (and resource(s) used)
  - Specify your Slurm options if relevant
-  - SLURM QoS Name: "savio_normal" is generally recommended
+   - SLURM QoS Name: "savio_normal" is generally recommended
  - Hit launch to start up a notebook
 
 
@@ -908,7 +881,7 @@ with dview.sync_imports():
     import numpy as np
 ```
 
-# IPP: Basic Operations
+# IPyParallel: Basic Operations
 
 The push command lets you send data to each worker (*engine*):
 
@@ -943,7 +916,7 @@ dview.apply(lambda x: num+x, 27)
 ```
 
 
-# IPP: Load Balancing and Maps
+# IPyParallel: Load Balancing and Maps
 
 A *load balanced* view assigns tasks to keep all of the workers busy:
 
@@ -955,7 +928,7 @@ lview = rc.load_balanced_view()
 lview.block = True
 ```
 
-To calculate $pi$ by Monte Carlo simulation, let's define a function that checks if two points are in the unit circle. Each worker will process a large number of points in a vectorized fashion.
+To calculate $\pi$ by Monte Carlo simulation, let's define a function that checks if two points are in the unit circle. Each worker will process a large number of points in a vectorized fashion.
 
 ```python
 def local_mean(seed):
