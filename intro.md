@@ -276,12 +276,12 @@ Let's see how we would transfer files/data to/from Savio using a few different a
 
 ```bash
 # to Savio, while on your local machine
-scp bayArea.csv caw87@dtn.brc.berkeley.edu:~/.
-scp bayArea.csv caw87@dtn.brc.berkeley.edu:~/data/newName.csv
-scp bayArea.csv caw87@dtn.brc.berkeley.edu:/global/scratch/users/caw87/.
+scp bayArea.csv $USER@dtn.brc.berkeley.edu:~/.
+scp bayArea.csv $USER@dtn.brc.berkeley.edu:~/data/newName.csv
+scp bayArea.csv $USER@dtn.brc.berkeley.edu:/global/scratch/users/$USER/.
 
 # from Savio, while on your local machine
-scp caw87@dtn.brc.berkeley.edu:~/data/newName.csv ~/Documents/.
+scp $USER@dtn.brc.berkeley.edu:~/data/newName.csv ~/Documents/.
 ```
 
 If you can ssh to your local machine or want to transfer files to other systems on to which you can ssh, you can login to the dtn node to execute the scp commands:
