@@ -242,6 +242,16 @@ ssh -Y SAVIO_USERNAME@hpc.brc.berkeley.edu
   
 An option that will often be better is to use Open OnDemand (ood.brc.berkeley.edu) to access Savio via your browser.
 
+# Logging in (via browser using Open OnDemand)
+
+Alternatively one can login via OOD to access Savio:
+
+- Connect to [ood.brc.berkeley.edu](https://ood.brc.berkeley.edu).
+  - Login via CILogon (select UC Berkeley) with your CalNet credentials.
+- You can then access the OOD services at the top of the page.
+  - For a terminal, click on "Clusters" and then "BRC Shell Access"
+
+
 # Editing files
 
 You are welcome to edit your files on Savio (rather than copying files back and forth from your laptop and editing them on your laptop). To do so you'll need to use some sort of editor. Savio has `vim`, `emacs`, and `nano` installed. Just start the editor from a login node.
@@ -797,15 +807,6 @@ Using OOD you can:
 - Start a shell session on Savio (i.e., terminal access)
 - Launch Jupyter, RStudio, and VS Code servers or Matlab GUI
 - Access a Linux desktop on Savio
-
-
-# Logging in to OOD
-
-Let's login to OOD:
-
-- Connect to [ood.brc.berkeley.edu](https://ood.brc.berkeley.edu).
-  - Login via CILogon with your CalNet credentials.
-- You can then access the OOD services at the top of the page.
 
 
 # Jobs and shell access
